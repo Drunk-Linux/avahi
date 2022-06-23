@@ -253,7 +253,7 @@ AC_TRY_COMPILE([#include <netinet/in.h>], [
 #
 # Detecting the linux distribution for specific things like init scripts.
 #
-AC_ARG_WITH(distro, AS_HELP_STRING([--with-distro=DISTRO],[Specify the distribution to target: One of lfs, debian, gentoo, archlinux, fedora, mandriva, darwin, netbsd, freebsd, slackware or none]))
+AC_ARG_WITH(distro, AS_HELP_STRING([--with-distro=DISTRO],[Specify the distribution to target: One of lfs, debian, gentoo, archlinux, drunk, fedora, mandriva, darwin, netbsd, freebsd, slackware or none]))
 if test "z$with_distro" = "z"; then
     if test "$cross_compiling" = yes; then
         AC_MSG_WARN([Target distribution cannot be reliably detected when cross-compiling. You should specify it with --with-distro (see $0 --help for recognized distros)])
@@ -262,6 +262,7 @@ if test "z$with_distro" = "z"; then
         AC_CHECK_FILE(/etc/SuSE-release,with_distro="suse")
         AC_CHECK_FILE(/etc/gentoo-release,with_distro="gentoo")
         AC_CHECK_FILE(/etc/arch-release,with_distro="archlinux")
+        AC_CHECK_FILE(/etc/os-release,with_distro="drunk")
         AC_CHECK_FILE(/etc/debian_version,with_distro="debian")
         AC_CHECK_FILE(/etc/redhat-release,with_distro="fedora")
         AC_CHECK_FILE(/etc/mandriva-release,with_distro="mandriva")
@@ -274,7 +275,7 @@ fi
 with_distro=`echo ${with_distro} | tr '[[:upper:]]' '[[:lower:]]' `
 
 case $with_distro in
-    lfs|debian|gentoo|archlinux|suse|fedora|mandriva|darwin|freebsd|slackware|none)
+    lfs|debian|gentoo|archlinux|drunk|suse|fedora|mandriva|darwin|freebsd|slackware|none)
      ;;
     netbsd)
      AC_MSG_WARN([Your distribution (${with_distro}) is supported but no init script exist yet! (patches welcome)])
@@ -292,6 +293,7 @@ AM_CONDITIONAL(TARGET_SUSE, test x"$with_distro" = xsuse)
 AM_CONDITIONAL(TARGET_GENTOO, test x"$with_distro" = xgentoo)
 AM_CONDITIONAL(TARGET_DEBIAN, test x"$with_distro" = xdebian)
 AM_CONDITIONAL(TARGET_ARCHLINUX, test x"$with_distro" = xarchlinux)
+AM_CONDITIONAL(TARGET_DRUNK, test x"$with_distro" = xdrunk)
 AM_CONDITIONAL(TARGET_FEDORA, test x"$with_distro" = xfedora)
 AM_CONDITIONAL(TARGET_MANDRIVA, test x"$with_distro" = xmandriva)
 AM_CONDITIONAL(TARGET_DARWIN, test x"$with_distro" = xdarwin)
